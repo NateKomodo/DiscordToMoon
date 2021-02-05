@@ -4,7 +4,7 @@ Tool i made to convert discord json download into an image (using ascii bytes as
 
 # Usage
 
-Git clone this repo then use dotnet CLI to compile for your platform.
+Git clone this repo then use dotnet CLI to compile for your platform. Alternatively, as of v1.1, precompiled binaries for linux and windows are available (see releases tab)
 
 You should download messages in your discord server using this https://github.com/Tyrrrz/DiscordChatExporter and specify the format as json
 
