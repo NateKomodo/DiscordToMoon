@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace DiscordToMoon
@@ -27,22 +29,24 @@ namespace DiscordToMoon
         private static void ToFile(string jsonPath, string imagePath, ImageFormat format)
         {
             Console.WriteLine($"Loading json from {jsonPath}/*");
-            
-            var json = Directory.GetFiles(jsonPath).Select(file => JObject.Parse(File.ReadAllText(file))).ToList();
+
+            var json = new ConcurrentStack<JObject>();
+
+            Parallel.ForEach(Directory.GetFiles(jsonPath), file => json.Push(JObject.Parse(File.ReadAllText(file))));
 
             Console.WriteLine($"Loaded {json.Count} files");
             
-            var manifest = new Dictionary<string, List<string>>();
-            
-            foreach (var j in json)
+            var manifest = new ConcurrentDictionary<string, List<string>>();
+
+            Parallel.ForEach(json, j =>
             {
                 var name = j.SelectToken("channel.name")?.ToObject<string>();
                 var messages = j.SelectToken("messages", false)?.ToObject<JArray>();
-                
+
                 if (string.IsNullOrEmpty(name) || messages == null) throw new NullReferenceException();
-                
+
                 var messageList = new List<string>();
-                
+
                 foreach (var message in messages)
                 {
                     var content = message.SelectToken("content", false)?.ToObject<string>();
@@ -55,12 +59,12 @@ namespace DiscordToMoon
                 }
 
                 name = "#" + name;
-                
+
                 if (manifest.ContainsKey(name))
                     manifest[name].AddRange(messageList);
                 else
-                    manifest.Add(name, messageList);
-            }
+                    manifest.TryAdd(name, messageList);
+            });
             
             Console.WriteLine($"Loaded {manifest.Keys.Count} channels and {manifest.Values.Select(m => m.Count).Sum()} messages");
             foreach (var kvp in manifest) Console.WriteLine($" - {kvp.Key}: {kvp.Value.Count}");
