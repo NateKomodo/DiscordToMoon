@@ -119,17 +119,20 @@ namespace DiscordToMoon
             
             
             Console.WriteLine("Reading image");
-            
-            for (var y = 0; y < bmp.Height; y++)
+
+            using (StreamWriter sw = File.AppendText(toFile))
             {
-                for (var x = 0; x < bmp.Width; x++)
+                for (var y = 0; y < bmp.Height; y++)
                 {
-                    var result = "";
-                    result += (char)bmp.GetPixel(x, y).R;
-                    result += (char)bmp.GetPixel(x, y).G;
-                    result += (char)bmp.GetPixel(x, y).B;
-                    if (result.ToCharArray().Contains((char)0)) continue;
-                    File.AppendAllText(toFile, result);
+                    for (var x = 0; x < bmp.Width; x++)
+                    {
+                        var result = "";
+                        result += (char) bmp.GetPixel(x, y).R;
+                        result += (char) bmp.GetPixel(x, y).G;
+                        result += (char) bmp.GetPixel(x, y).B;
+                        if (result.ToCharArray().Contains((char) 0)) continue;
+                        sw.Write(result);
+                    }
                 }
             }
 
