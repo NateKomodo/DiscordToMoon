@@ -136,6 +136,8 @@ namespace DiscordToMoon
             Console.WriteLine("Done");
         }
 
+        // Yes, this method signature is ugly af, didnt want to use globals as this class is static
+        // TODO rewrite this class to be encapsulated
         private static void Write(char cha, ref (char?, char?, char?) buffer, ref Bitmap bmp, ref int x, ref int y, ref int writeCalls, ref int pixelsWritten, int canvas)
         {
             writeCalls++;
@@ -155,6 +157,8 @@ namespace DiscordToMoon
                 FlushBuffer(ref buffer, ref bmp, ref x, ref y, ref pixelsWritten, canvas, cha);
         }
 
+        // Yes, this method signature is ugly af, didnt want to use globals as this class is static
+        // TODO rewrite this class to be encapsulated
         private static void FlushBuffer(ref (char?, char?, char?) buffer, ref Bitmap bmp, ref int x, ref int y, ref int pixelsWritten, int canvas, char? overflow = null)
         {
             var c = Color.FromArgb(255, buffer.Item1 ?? 0, buffer.Item2 ?? 0, buffer.Item3 ?? 0);
