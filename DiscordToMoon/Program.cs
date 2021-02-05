@@ -12,8 +12,16 @@ namespace DiscordToMoon
     {
         public static void Main(string[] args)
         {
-            ToFile("folder-with-json", "out.png", ImageFormat.Png);
-            FromFileRaw("out.png", "out.txt");
+            if (args.Length != 3) throw new ArgumentException("You must pass in 3 arguments. Usage: DiscordToMoon.exe <read/write> <in> <out>");
+            switch (args[0])
+            {
+                case "write":
+                    ToFile(args[1], args[2], ImageFormat.Png);
+                    break;
+                case "read":
+                    FromFileRaw(args[1], args[2]);
+                    break;
+            }
         }
         
         private static void ToFile(string jsonPath, string imagePath, ImageFormat format)
