@@ -14,8 +14,10 @@ namespace DiscordToMoon.Writers
         
         public DiscordImageWriter(string jsonFolder)
         {
-            _manifest = new JsonLoader(Directory.GetFiles(jsonFolder)).FromDiscord();
-            
+            _manifest = new JsonLoader(Directory.GetFiles(jsonFolder)).FromDiscord()
+                .OrderBy(obj => obj.Key)
+                .ToDictionary(obj => obj.Key, obj => obj.Value);
+
             long characters = _manifest.Values.Select(l => l.Select(s => s.Length).Sum()).Sum() + _manifest.Keys.Select(s => s.Length + 2).Sum();
 
             var pixels = (int)Math.Ceiling((characters / 3f));
