@@ -19,7 +19,7 @@ namespace DiscordToMoon.Readers
         {
             Console.WriteLine($"Reading image into {saveTo}");
 
-            using (StreamWriter sw = File.AppendText(saveTo))
+            using (var sw = File.AppendText(saveTo))
             {
                 for (var y = 0; y < _bmp.Height; y++)
                 {
@@ -29,7 +29,8 @@ namespace DiscordToMoon.Readers
                         result += (char) _bmp.GetPixel(x, y).R;
                         result += (char) _bmp.GetPixel(x, y).G;
                         result += (char) _bmp.GetPixel(x, y).B;
-                        if (result.ToCharArray().Contains((char) 0)) continue;
+                        result = result.Replace(((char) 0).ToString(), "");
+                        if (string.IsNullOrEmpty(result)) continue;
                         sw.Write(result);
                     }
                 }
