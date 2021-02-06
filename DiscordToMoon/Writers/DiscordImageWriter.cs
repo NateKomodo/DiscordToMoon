@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using DiscordToMoon.Helpers;
+using DiscordToMoon.Models;
 
-namespace DiscordToMoon
+namespace DiscordToMoon.Writers
 {
     public sealed class DiscordImageWriter : ImageWriter
     {

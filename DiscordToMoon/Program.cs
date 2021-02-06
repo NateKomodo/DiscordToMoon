@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing.Imaging;
+using DiscordToMoon.Readers;
+using DiscordToMoon.Writers;
 
 namespace DiscordToMoon
 {

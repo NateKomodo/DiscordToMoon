@@ -1,8 +1,10 @@
 using System;
 using System.Drawing.Imaging;
 using System.IO;
+using DiscordToMoon.Helpers;
+using DiscordToMoon.Models;
 
-namespace DiscordToMoon
+namespace DiscordToMoon.Writers
 {
     public sealed class GenericImageWriter : ImageWriter
     {

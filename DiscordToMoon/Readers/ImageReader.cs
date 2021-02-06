@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 
-namespace DiscordToMoon
+namespace DiscordToMoon.Readers
 {
     public sealed class ImageReader
     {

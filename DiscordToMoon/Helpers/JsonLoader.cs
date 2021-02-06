@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace DiscordToMoon
+namespace DiscordToMoon.Helpers
 {
     public sealed class JsonLoader
     {
